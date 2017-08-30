@@ -1,10 +1,13 @@
 
+
+//RRRRRRRRRRR
+
 /*
-#include "../ASALIB/ASA_DEVICE.h"
-#include "STP00.h"
+ #include "../ASALIB/ASA_DEVICE.h"
+ #include "STP00.h"
 
 
-int main() {
+   int main() {
     char phase[4] = {15-(1<<PHA),15-(1<<PHB),15-(1<<PHC),15-(1<<PHD)};
     uint8_t i=0;
     PH_DDR = 15;
@@ -17,12 +20,12 @@ int main() {
 
 
     return 0;
-}
-*/
+   }
+ */
 //void uart_init(/* arguments */) {}
 
 //--------------------------------------------------------
-//幹你娘//
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
@@ -52,52 +55,59 @@ printf("End\n");
 //--------------SPI_DATA_SWAP
 char data_swap(char Tdata) {
 
-	 char timeout=0;
-	 char Rdata=0;
-	 static char count=0;
-	 SPDR=Tdata;
-	 while(!(SPSR&(1<<SPIF))){}
-	 Rdata=SPDR;
-	 count=count%3;
-	 Data_Buffer[count]=Rdata;
-	 count++;
-	 return 0;
+        char timeout=0;
+        char Rdata=0;
+        static char count=0;
+        SPDR=Tdata;
+        while(!(SPSR&(1<<SPIF))) {}
+        Rdata=SPDR;
+        count=count%3;
+        Data_Buffer[count]=Rdata;
+        count++;
+        return 0;
 
 }
 //-------------timer
 void timer_set(void) {
 
-	TCCR0A = (1<<WGM01);
-  TCCR0B = (1<<CS01);
-	TIMSK0 = 1<<OCIE0A;
-	OCR0A  = 255;
+<<<<<<< HEAD
+        // Setup TCCR0 register  for CTC Mode
+        TCCR0A = (1<<WGM01);
+        TCCR0B = (1<<CS00);
+        TIMSK0=1<<OCIE0A;
+        OCR0A=255;
+
 
 }
 //-------------main
 
 int main (void) {
-	spi_ini();
-	timer_set;
-	sei();
-  char i=0;
+        spi_ini();
+        timer_set;
+        sei();
+        char i=0;
 
-	while(1) {
+        while(1) {
 
-		switch (Data_Buffer[i]) {
+                switch (Data_Buffer[i]) {
 
-			case 1: printf("1\n" );
+        case 1:
+            printf("1\n" );
             break;
-      case 2: printf("2\n", );
+        case 2:
+            printf("2\n", );
             break;
-      case 3: printf("3\n", );
+        case 3:
+            printf("3\n", );
             break;
-      default: break;
+        default:
+            break;
 
 
-		}
+                }
 
 
-	}
+        }
 
 
 
@@ -111,6 +121,6 @@ int main (void) {
 
 ISR(TIMER0_COMP) {
 
-	data_swap(1);
+        data_swap(1);
 
 }
