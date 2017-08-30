@@ -22,7 +22,7 @@ int main() {
 //void uart_init(/* arguments */) {}
 
 //--------------------------------------------------------
-
+//幹你娘//
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
@@ -44,7 +44,7 @@ void spi_ini(void) {
 
 printf("SPI_INI\n");
       DDRB|=(0<<MOSI)|(1<<MISO)|(0<<SCK)|(0<<SS);   //set MISO
-      PORTB|=(1<<MISO);                             //MISO Output ,others input
+    //  PORTB|=(1<<MISO);                             //MISO Output ,others input
       SPCR=(1<<SPIE)|(1<<SPE)|(0<<MSTR);			//Enable
 printf("End\n");
 
@@ -68,10 +68,9 @@ char data_swap(char Tdata) {
 void timer_set(void) {
 
 	TCCR0A = (1<<WGM01);
-  TCCR0B = (1<<CS00);
-	TIMSK0=1<<OCIE0A;
-	OCR0A=255;
-
+  TCCR0B = (1<<CS01);
+	TIMSK0 = 1<<OCIE0A;
+	OCR0A  = 255;
 
 }
 //-------------main
@@ -86,11 +85,11 @@ int main (void) {
 
 		switch (Data_Buffer[i]) {
 
-			case 1:
+			case 1: printf("1\n" );
             break;
-      case 2:
+      case 2: printf("2\n", );
             break;
-      case 3:
+      case 3: printf("3\n", );
             break;
       default: break;
 
