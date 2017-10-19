@@ -41,13 +41,11 @@ int main() {
 char Data_Buffer[3]={0};
 //--------------SPI_INI
 void spi_ini(void) {
-
-printf("SPI_INI\n");
-      DDRB|=(0<<MOSI)|(1<<MISO)|(0<<SCK)|(0<<SS);   //set MISO
-      PORTB|=(1<<MISO);                             //MISO Output ,others input
-      SPCR=(1<<SPIE)|(1<<SPE)|(0<<MSTR);			//Enable
-printf("End\n");
-
+    printf("SPI_INI\n");
+          DDRB|=(0<<MOSI)|(1<<MISO)|(0<<SCK)|(0<<SS);   //set MISO
+          PORTB|=(1<<MISO);                             //MISO Output ,others input
+          SPCR=(1<<SPIE)|(1<<SPE)|(0<<MSTR);			//Enable
+    printf("End\n");
 }
 //--------------SPI_DATA_SWAP
 char data_swap(char Tdata) {
