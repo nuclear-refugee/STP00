@@ -68,7 +68,7 @@ uart-test2: ./UART/test2/master_main.hex ./UART/test2/slave_main.hex
 %.elf: %.o $(LIBOBJS)
 	 $(CC) $(LDFLAGS) $< $(LIBOBJS) $(LINKONLYLIBOBJS) $(LIBDIRS) $(LIBS) -o $@
 
-%.hex: $(LIBOBJS) %.elf
+%.hex: %.elf
 	avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
 
 %.a: %.elf %.hex
