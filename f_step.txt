@@ -1,0 +1,1 @@
+11059200/timer_prescalar/(OCRn+1)/speed_pre = f_step
