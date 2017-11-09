@@ -30,8 +30,8 @@ int abs(int n)
 
 volatile int speed_pre=0,phase_speed_pre=0,phase=0,count0=0,count1=0,step = 0;
 volatile int phase_switch = 0;
-const uint8_t output[8] = {0x01,0x03,0x02,0x06,0x04,0x0C,0x08,0x09};
-
+//const uint8_t output[8] = {0x01,0x03,0x02,0x06,0x04,0x0C,0x08,0x09};
+const uint8_t output[4] = {0x01,0x02,0x04,0x08};
 
 int sign(int n)
 {
@@ -86,8 +86,8 @@ ISR(TIMER0_COMP_vect)
 
 void Tim_set(void)
 {
-    TCCR0 = 0b00001100;   //prescalar 64
-    OCR0 = 255;
+    TCCR0 = 0b00001010;   //prescalar 64
+    OCR0 = 68;
     TIMSK = 0b00000010;
 }
 
