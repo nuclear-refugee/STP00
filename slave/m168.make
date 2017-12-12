@@ -1,5 +1,5 @@
 ## General Flags
-MCU = atmega88
+MCU = atmega168
 CC = avr-gcc
 CPP = avr-g++
 F_CPU = 8000000
@@ -31,7 +31,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 LIBS = -lm -lprintf_flt -lscanf_flt
 
 ## Objects that must be built in order to link
-LIBSRC = $(wildcard LIB/*.c)
+#LIBSRC = $(wildcard LIB/*.c)
 LIBOBJS = $(patsubst %.c,%.o,$(LIBSRC))
 
 ## Objects explicitly added by the user
