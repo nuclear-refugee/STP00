@@ -93,6 +93,7 @@ ISR(TIMER0_COMPA_vect)
     }
 }
 
+
 void Tim_set(void)
 {
     // CTC, prescalar 64, interrupt Enable
@@ -106,7 +107,7 @@ void Tim_set(void)
 int main(void)
 {
     //rev_STDIO_set();
-    //Tim_set();
+    Tim_set();
     DDRB = 0x06;
     DDRD = 0x6;
     sei();
