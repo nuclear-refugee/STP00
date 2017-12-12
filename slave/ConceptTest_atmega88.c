@@ -18,6 +18,12 @@
 #define MISO
 #define SCK
 */
+//--------------Variables for Control
+#define ratio 10
+//f_int = f_io / (2*64*(1+OCR))
+// OCR  = f_io/f_int/2/64-1
+#define operate_OCR 72
+
 int abs(int n)
 {
     if(n & 0x8000)
