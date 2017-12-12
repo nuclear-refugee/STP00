@@ -3,9 +3,9 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <stdio.h>
-#include <util/delay.h>
-#include ".\LIB\rev_STDIO.h"
+//#include <stdio.h>
+//#include <util/delay.h>
+//#include ".\LIB\rev_STDIO.h"
 /*
 //--------------Motor phase
 #define Phase1
