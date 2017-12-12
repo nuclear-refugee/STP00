@@ -34,7 +34,7 @@ int abs(int n)
 
 volatile int speed_pre=4,phase_speed_pre=1,phase=0,count0=0,count1=0,step = 0;
 volatile int phase_switch = 0;
-const uint8_t output[4] = {0x0E,0x0D,0x0B,0x07};
+//const uint8_t output[4] = {0x0E,0x0D,0x0B,0x07};
 
 
 int sign(int n)
@@ -44,6 +44,7 @@ int sign(int n)
     else
         return 1;
 }
+
 
 ISR(TIMER0_COMPA_vect)
 {
@@ -60,15 +61,10 @@ ISR(TIMER0_COMPA_vect)
         count1 = 0;
     }
 
-    if(step > 0)
+    if(step != 0)
     {
-        phase_switch++;
-        step--;
-    }
-    else if(step < 0)
-    {
-        phase_switch--;
-        step++;
+        phase_switch += sign(phase_switch);
+        step -= sign(phase_switch);
     }
 
     if(phase_switch<0)
@@ -99,17 +95,17 @@ ISR(TIMER0_COMPA_vect)
 
 void Tim_set(void)
 {
+    // CTC, prescalar 64, interrupt Enable
     TCCR0A = (1 << WGM01);
     TCCR0B = (1 << CS01)|(1 << CS00);
-    OCR0A = 63;
+    OCR0A  = operate_OCR;
     TIMSK0 = (1 << OCIE0A);
+    // f_int = f_io / (2*pre*(1+OCR))
 }
 
 int main(void)
 {
-    unsigned int n;
-    int num;
-    rev_STDIO_set();
+    //rev_STDIO_set();
     //Tim_set();
     DDRB = 0x06;
     DDRD = 0x6;
