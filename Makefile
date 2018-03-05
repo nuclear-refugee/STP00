@@ -1,6 +1,17 @@
-
-slave-main:
-	@make -f m88.make slave/main.hex
-
-master-main:
-	@make -f m128.make master/main.hex
+all:
+	@make -f slave.make slave/main_slave.a
+	@make -f master.make master/main_master.a
+	@cmd_ASA_loader -p 3 -h ./hex/main_master.hex
+	@cmd_ASA_loader -p 5 -h ./hex/main_slave.hex
+slave: slave/main_slave.c
+	@make -f slave.make slave/main_slave.a
+	@cmd_ASA_loader -p 5 -h ./hex/main_slave.hex
+	@terminal -p 5
+master: master/main_master.c
+	@make -f master.make master/main_master.a
+	@cmd_ASA_loader -p 3 -h ./hex/main_master.hex
+	@terminal -p 3
+slave_prog:
+	@cmd_ASA_loader -p 5 -h ./hex/main_slave.hex
+master_prog:
+	@cmd_ASA_loader -p 3 -h ./hex/main_master.hex
