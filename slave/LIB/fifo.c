@@ -16,12 +16,12 @@ uint8_t fifo_pop(fifo_set *ptr,uint8_t byte,uint8_t *d_ptr)
             }
             else
                 // No data in buffer
-                return 1;
+                return i;
         }
         ptr->out ++;
         if(ptr->out == fifo_size) ptr->out = 0;
     }
-    return 0;
+    return i;
 }
 
 uint8_t fifo_push(fifo_set *ptr,uint8_t byte,uint8_t *d_ptr)
