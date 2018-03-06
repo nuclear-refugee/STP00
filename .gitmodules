@@ -1,3 +1,6 @@
 [submodule "ASALIB"]
 	path = ASALIB
 	url = https://github.com/nuclear-refugee/rev_ASA_lib
+[submodule "rev_lib"]
+	path = rev_lib
+	url = https://github.com/nuclear-refugee/rev_avr_lib
