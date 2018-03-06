@@ -4,6 +4,7 @@
 #include <inttypes.h>
 
 #define fifo_size 32
+#define fifo_initial {0,0,0,{0}}
 
 typedef struct fifo
 {
