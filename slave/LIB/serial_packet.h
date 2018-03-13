@@ -11,6 +11,7 @@ typedef struct serial_packet_format
     volatile uint8_t addr;
     volatile uint8_t data;
     volatile uint8_t chksum;
+    volatile uint8_t timeout_count;
 } serial_packet;
 
 #define serial_packet_initial {0,0,0,0,0}
@@ -33,6 +34,9 @@ typedef struct serial_packet_format
 #define P_HEADER 0xAA
 #define P_UID 0x12
 
+#define SERIAL_TIMEOUT 30
+
 uint8_t unpack(serial_packet *sp,uint8_t *raw);
+void serial_packet_timeout_count(serial_packet * sp);
 
 #endif
