@@ -33,10 +33,17 @@ int main(void) {
             USART_transmit(&i);
         }
         */
+        i = 170;
         USART_transmit(&i);
+        i = 18;
+        USART_transmit(&i);
+        i = 189;
+        USART_transmit(&i);
+        i = 80;
+        USART_transmit(&i);
+        i = 31;
         printf("continue?\n");
         scanf("%hhu",&i);
-        i++;
     }
 
 }
