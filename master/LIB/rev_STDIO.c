@@ -15,7 +15,7 @@ int rev_stdio_putchar(char c, FILE *stream)
    if (c == '\n')
         rev_stdio_putchar('\r',stream);
 
-    while((UCSR0A&(1<<UDRE0))==0);
+    while(!(UCSR0A&(1<<UDRE0)));
 
     UDR0 = c;
 
@@ -26,7 +26,7 @@ int rev_stdio_getchar(FILE *stream)
 {
 	int UDR_Buff;
 
-    while((UCSR0A&(1<<RXC0))==0);
+    while(!(UCSR0A&(1<<RXC0)));
 
 	UDR_Buff = UDR0;
 
