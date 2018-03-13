@@ -46,5 +46,14 @@ uint8_t unpack(serial_packet *sp,uint8_t *raw){
             break;
         }
     }
+    sp->timeout_count = 0;
     return WORKING;
+}
+
+void serial_packet_timeout_count(serial_packet * sp){
+    sp->timeout_count ++;
+    if(sp->timeout_count > SERIAL_TIMEOUT){
+        sp->status = Pst_HEADER;
+        sp->timeout_count = 0;
+    }
 }
