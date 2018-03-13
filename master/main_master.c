@@ -3,6 +3,7 @@
 #include ".\LIB\uart.h"
 #include ".\LIB\m128.h"
 #include ".\LIB\M128_UART.h"
+#include <stdio.h>
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -26,12 +27,16 @@ int main(void) {
 //---------- Loop------------//
     while(1)
     {
+        /*
         for(i=0;i<30;i++)
         {
             USART_transmit(&i);
         }
+        */
+        USART_transmit(&i);
         printf("continue?\n");
-        scanf("%u",&i);
+        scanf("%hhu",&i);
+        i++;
     }
 
 }
