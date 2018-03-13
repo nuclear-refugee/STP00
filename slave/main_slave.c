@@ -6,56 +6,41 @@
 
 #include ".\LIB\rev_STDIO.h"
 #include ".\LIB\uart.h"
-
-typedef struct serial_packet_format
-{
-    volatile uint8_t status;
-    volatile uint8_t Header_count;
-    volatile uint8_t RW;
-    volatile uint8_t index;
-    volatile uint8_t data;
-    volatile uint8_t result;
-} serial_packet;
-
-#define serial_packet_initial {0,0,0,0,0,0}
+#include ".\LIB\serial_packet.h"
+#include ".\LIB\serial_packet_print.h"
+//#include "..\rev_lib\ASA\ASA_UARTS.h"
 
 serial_packet rec_state = serial_packet_initial;
-
-// Packet receiver status
-#define Pst_Header 1
-#define Pst_UID    2
-#define Pst_ADDR   3
-#define Pst_BYTES  4
-#define Pst_DATA   5
-#define Pst_Chksum 6
-
-#define P_Header 0xAA
-
-ISR(USART_RX_vect)
-{
-    switch (rec_state.status) {
-        case Pst_Header:{
-            if(UDR == P_Header)
-                rec_state.Header_count++;
-            break;
-        }
-        case
-
-    }
-}
 
 int main(void)
 {
     rev_STDIO_set();
     USART_set();
     uint8_t chk,data;
-    sei();
-
+    //sei();
+    printf("Start\n");
+    // DDRB |= 7 << 5;
+    // DDRF |= 1 << 4;
+    // PORTB = 1 << 5;
+    // PORTF = 1 << 4;
     while(1)
     {
-        if(!chk)
-        {
-            //printf("%u\n",data);
-        }
+    //    USART_receive(&data);
+        printf("In: ");
+        scanf("%u",&data);
+        chk = unpack(&rec_state,&data);
+        serial_packet_stat(&rec_state);
+        serial_packet_chk(&chk);
+        // chk = uarts_decode_buf_step();
+        // if(chk != BUF_NULL)
+        // {
+        //     printf("UID:   %u\n", UartDecoder.uid);
+        //     printf("WR :   %u\n", UartDecoder.wr);
+        //     printf("ADDR:  %u\n", UartDecoder.address);
+        //     printf("BYTES: %u\n", UartDecoder.bytes);
+        //     printf("DATA:  %u\n", UartDecoder.data);
+        //     printf("CHKSUM:%u\n", UartDecoder.chksum);
+        // }
+
     }
 }
