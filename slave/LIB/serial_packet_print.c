@@ -29,6 +29,9 @@ void serial_packet_stat(serial_packet *sp)
         case Pst_UID:
             printf("UID\n");
             break;
+        case Pst_BYTES:
+            printf("BYTES\n");
+            break;
         case Pst_ADDR:
             printf("ADDR\n");
             break;
@@ -42,6 +45,7 @@ void serial_packet_stat(serial_packet *sp)
     // printf("Status : %u\n",sp->status);
     printf("WR     : %u\n",sp->WR);
     printf("ADDR   : %u\n",sp->addr);
+    printf("BYTES  : %u\n",sp->bytes);
     printf("Data   : %u\n",sp->data);
     printf("Chksum : %u\n",sp->chksum);
     printf("--- END ---\n");
