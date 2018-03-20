@@ -42,6 +42,7 @@ int main(void) {
         i = 80;
         USART_transmit(&i);
         i = 31;
+        //USART_transmit(&i);
         printf("continue?\n");
         scanf("%hhu",&i);
     }
