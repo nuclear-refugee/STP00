@@ -20,22 +20,37 @@ ISR(USART1_RX_vect){
 
 int main(void)
 {
+    uint8_t chk,data;
     rev_STDIO_set();
     USART_set();
     sei();
-    uint8_t chk,data;
+
     printf("Start\n");
     while(1)
     {
         // printf("In: ");
         // scanf("%u",&data);
         chk = fifo_pop(&usart_rx_fifo,1, &data);
-        if(chk){
+        if(chk){    // FIFO pop 1 byte
             chk = unpack(&rec_state,&data); // unpack by continuous sending a byte data
-            serial_packet_stat(&rec_state); // print out struct
-            serial_packet_chk(&chk);    // print out ERROR
+            // serial_packet_stat(&rec_state); // print out struct
+            // serial_packet_chk(&chk);    // print out ERROR
+            if(chk == Packet_OK){
+                if(rec_state.WR)  // write
+                {
+                }
+                else    // read
+                {
+
+                }
+                serial_packet_state_reset(&rec_state);
+            }
         }
         else
-            serial_packet_timeout_count(&rec_state);
+        {    // FIFO pop no data
+            chk = serial_packet_timeout_count(&rec_state);
+            if(chk)
+                printf("TimeOut!!\n");
+        }
     }
 }
