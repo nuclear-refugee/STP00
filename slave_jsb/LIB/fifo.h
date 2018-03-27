@@ -16,6 +16,6 @@ typedef struct fifo
 
 uint8_t fifo_pop(fifo_set *ptr,uint8_t byte,uint8_t *d_ptr);
 uint8_t fifo_push(fifo_set *ptr,uint8_t byte,uint8_t *d_ptr);
-
+uint8_t fifo_empty(fifo_set *ptr);
 
 #endif

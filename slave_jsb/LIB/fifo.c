@@ -44,3 +44,11 @@ uint8_t fifo_push(fifo_set *ptr,uint8_t byte,uint8_t *d_ptr)
     }
     return 0;
 }
+
+uint8_t fifo_empty(fifo_set *ptr)
+{
+    if(( ptr->in == ptr->out ) && (!ptr->full) )    // empty
+        return 1;
+    else
+        return 0;
+}
