@@ -15,6 +15,9 @@ void serial_packet_chk(uint8_t *chk){
         case Packet_OK:
             printf("Packet OK\n");
             break;
+        case ERROR_ADDR:
+            printf("ERROR_ADDR\n");
+            break;
     }
 }
 
