@@ -3,6 +3,7 @@
 
 #include <inttypes.h>
 #include "Reg_sys.h"
+#include <stdio.h>
 
 typedef struct serial_packet_format
 {
@@ -13,9 +14,10 @@ typedef struct serial_packet_format
     volatile uint8_t * data;
     volatile uint8_t chksum;
     volatile uint8_t timeout_count;
+    volatile uint8_t reg_index_max;
 } serial_packet;
 
-#define serial_packet_initial {0,0,0,0,0,0,0}
+#define serial_packet_initial {0,0,0,0,0,0,0,0}
 
 // Packet receiver status
 #define Pst_HEADER 0
@@ -27,15 +29,17 @@ typedef struct serial_packet_format
 // TODO: change to enum
 
 // Packet receiver return value
-#define WORKING      0
-#define ERROR_HEADER 1
-#define ERROR_UID    2
-#define ERROR_CHKSUM 3
-#define Packet_OK    4
+#define WORKING          0
+//#define HEADER_NOT_MATCH 1
+//#define UID_NOT_MATCH    2
+#define ERROR_CHKSUM     3
+#define ERROR_ADDR       4
+#define Packet_OK        5
 // TODO: enum
 
 #define P_HEADER 0xAA
-#define P_UID 0x12
+#define P_UID    0x12
+#define P_ERROR  0xA0
 
 #define SERIAL_TIMEOUT 30
 

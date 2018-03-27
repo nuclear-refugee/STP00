@@ -8,7 +8,7 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
                 sp->status = Pst_UID;
                 sp->chksum = P_HEADER;
             }
-            else return ERROR_HEADER;
+            // else return HEADER_NOT_MATCH;
             break;
         }
         case Pst_UID:{
@@ -18,16 +18,26 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
             }
             else {
                 sp->status = Pst_HEADER;
-                return ERROR_UID;
+                // return UID_NOT_MATCH;
             }
             break;
         }
         case Pst_ADDR:{
             sp->addr = *raw & 0x7F;
             sp->WR = *raw >> 7;
-            sp->status = Pst_DATA;
             sp->chksum += *raw;
-            sp->data = malloc(reg[sp->addr].bytes);
+            if(sp->addr >= sp->reg_index_max ){
+                sp->status = Pst_HEADER;
+                return ERROR_ADDR;
+            }
+            if(sp->WR){
+                free(sp->data);
+                // printf("specify reg[%u] length: %u\n",sp->addr,reg[sp->addr].bytes);
+                sp->data = malloc(reg[sp->addr].bytes);
+                sp->status = Pst_DATA;
+            }
+            else
+                sp->status = Pst_CHKSUM;
             break;
         }
         case Pst_DATA:{
@@ -39,8 +49,12 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
             break;
         }
         case Pst_CHKSUM:{
-            if(*raw == sp->chksum)
+            if(*raw == sp->chksum){
+                for(int i = 0 ; i < reg[sp->addr].bytes ; i++ ){
+                    *(uint8_t*)(reg[sp->addr].ptr+i) = *(sp->data+i);
+                }
                 return Packet_OK;
+            }
             else return ERROR_CHKSUM;
             break;
         }
