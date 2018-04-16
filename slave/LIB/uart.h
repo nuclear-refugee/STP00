@@ -2,7 +2,7 @@
 #define __UART_H__
 
 #include <inttypes.h>
-#include "m128.h"
+#include "device.h"
 
 void USART_set(void);
 void USART_transmit(uint8_t *data);

@@ -1,4 +1,4 @@
-#include "m128.h"
+#include "device.h"
 void USART_set(void)
 {
     // 12bits with U2X = 0 UBRR = Fosc/16/(BAUD = 38400)-1 = 17
@@ -19,6 +19,6 @@ void USART_transmit(uint8_t *data)
 
 void USART_receive(uint8_t *data)
 {
-    while ( !(UCSRA & (1<<RXC)) );
+    while ( !(UCSRA & (1<<7)) );
     *data = UDR;
 }
