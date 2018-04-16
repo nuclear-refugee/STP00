@@ -3,7 +3,10 @@
 
 #include <inttypes.h>
 #include "Reg_sys.h"
+#include "fifo.h"
+#include "device.h"
 #include <stdio.h>
+#include "uart.h"
 
 typedef struct serial_packet_format
 {
@@ -28,23 +31,24 @@ typedef struct serial_packet_format
 #define Pst_CHKSUM 5
 // TODO: change to enum
 
-// Packet receiver return value
+// Packet receiver(unpack) return value
 #define WORKING          0
 //#define HEADER_NOT_MATCH 1
 //#define UID_NOT_MATCH    2
-#define ERROR_CHKSUM     3
-#define ERROR_ADDR       4
-#define Packet_OK        5
+#define ERROR_CHKSUM     0xA3
+#define ERROR_ADDR       0xA4
+#define Packet_OK        0xA5
 // TODO: enum
 
 #define P_HEADER 0xAA
 #define P_UID    0x12
 #define P_ERROR  0xA0
 
-#define SERIAL_TIMEOUT 30
+#define SERIAL_TIMEOUT 200
 
 uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw);
 uint8_t serial_packet_timeout_count(serial_packet * sp);
 void serial_packet_state_reset(serial_packet *sp);
+void pack_respond(serial_packet *sp , REG_PTR_SIZE * reg , fifo_set * tx_fifo);
 
 #endif

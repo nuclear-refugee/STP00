@@ -7,6 +7,8 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
             if(*raw == P_HEADER) {
                 sp->status = Pst_UID;
                 sp->chksum = P_HEADER;
+                sp->bytes_c = 0;
+                free(sp->data);
             }
             // else return HEADER_NOT_MATCH;
             break;
@@ -31,7 +33,6 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
                 return ERROR_ADDR;
             }
             if(sp->WR){
-                free(sp->data);
                 // printf("specify reg[%u] length: %u\n",sp->addr,reg[sp->addr].bytes);
                 sp->data = malloc(reg[sp->addr].bytes);
                 sp->status = Pst_DATA;
@@ -50,12 +51,13 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
         }
         case Pst_CHKSUM:{
             if(*raw == sp->chksum){
-                for(int i = 0 ; i < reg[sp->addr].bytes ; i++ ){
-                    *(uint8_t*)(reg[sp->addr].ptr+i) = *(sp->data+i);
-                }
                 return Packet_OK;
             }
-            else return ERROR_CHKSUM;
+            else
+            {
+                sp->status = Pst_HEADER;
+                return ERROR_CHKSUM;
+            }
             break;
         }
     }
@@ -72,6 +74,43 @@ uint8_t serial_packet_timeout_count(serial_packet * sp){
         }
     }
     return 0;
+}
+
+void pack_respond(serial_packet *sp , REG_PTR_SIZE * reg , fifo_set * tx_fifo )
+{
+    uint8_t trigger = 0 , i , data ,chksum;
+    if( fifo_empty(tx_fifo) )
+        trigger = 1;
+    serial_packet_state_reset(sp);
+    if(sp->WR)   // written
+    {   // if ok, then return header as acknowledge
+        for( i = 0 ; i != reg[sp->addr].bytes ; i++ )
+        {
+            *((uint8_t *) (reg[sp->addr].ptr + i )) = *( sp->data + i );
+        }
+        data = P_HEADER;
+        fifo_push( tx_fifo , 1, &data );
+    }
+    else    // read
+    {
+        // return HEADER | Data | chksum
+        chksum = P_HEADER;
+        data = P_HEADER;
+        fifo_push( tx_fifo , 1 , &data );
+        fifo_push( tx_fifo , reg[sp->addr].bytes , ((uint8_t*)(reg[sp->addr].ptr)) );
+        for( i = 0; i != reg[sp->addr].bytes ; i++ )
+        {
+            chksum += *((uint8_t *)(reg[sp->addr].ptr)+i);
+        }
+        fifo_push( tx_fifo, 1 , &chksum);
+    }
+    if(trigger)
+    {   // if tx not working(tx stop when fifo empty), then trigger
+        fifo_pop(tx_fifo,1,&data);
+        // UCSRA |= 1 << TXC;
+        USART_transmit( &data );
+        trigger = 0;
+    }
 }
 
 void serial_packet_state_reset(serial_packet *sp)
