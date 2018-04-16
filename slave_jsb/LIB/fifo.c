@@ -2,7 +2,7 @@
 
 uint8_t fifo_pop(fifo_set *ptr,uint8_t byte,uint8_t *d_ptr)
 {
-    uint8_t i;
+    volatile uint8_t i;
     for(i=0;i < byte; i++)
     {
         if(ptr->in != ptr->out)
