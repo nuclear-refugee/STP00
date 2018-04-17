@@ -97,7 +97,7 @@ uint8_t usart_tranceiver( uint8_t UID , uint8_t WR_ADDR , uint8_t BYTES , void *
 
 int main(void) {
     uint8_t buff[8];
-    uint16_t reg,bytes;
+    uint16_t reg,bytes,wr,chk;
     uint8_t i=0;
 //---------- Initial ---------//
     rev_STDIO_set();
@@ -131,27 +131,42 @@ int main(void) {
         // while(1);
         while(1){
             printf("START\n");
+            scanf("%u",&wr);
             scanf("%u",&reg);
             scanf("%u",&bytes);
-            if(reg & 0x80)
+            if(wr)
             {
                 for( i = 0 ; i != bytes ; i++ )
                 {
                     scanf("%u",&buff[i]);
                 }
+                chk = M128_UARTM_trm(8,0x12,reg,bytes,buff);
+
             }
-            printf("reg: %u bytes: %u buff %u wr %u\n",reg,bytes,buff,(uint8_t)reg&0x80);
-            i = usart_tranceiver(0x12,(uint8_t)reg,(uint8_t)bytes,&buff);
-            printf("chk: %u\n",i);
-            if( !(reg & 0x80) )
+            else
             {
+                chk = M128_UARTM_rec(8,0x12,reg,bytes,buff);
                 printf("buff:");
                 for( i = 0 ; i != bytes ; i++ )
                 {
-                    printf(" %u",(uint8_t)buff[i]);
+                    printf(" %u",buff[i]);
                 }
                 printf("\n");
             }
+            printf("chk %u\n" , chk );
+            // printf("reg: %u bytes: %u buff %u wr %u\n",reg,bytes,buff,(uint8_t)reg&0x80);
+            // i = usart_tranceiver(0x12,(uint8_t)reg,(uint8_t)bytes,&buff);
+            // printf("chk: %u\n",i);
+            // if( !(reg & 0x80) )
+            // {
+            //     printf("buff:");
+            //     for( i = 0 ; i != bytes ; i++ )
+            //     {
+            //         printf(" %u",(uint8_t)buff[i]);
+            //     }
+            //     printf("\n");
+            // }
+
         }
         //USART_transmit(&i);
     // }
