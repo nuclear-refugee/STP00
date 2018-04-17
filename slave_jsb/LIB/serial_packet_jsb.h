@@ -5,12 +5,13 @@
 #include "Reg_sys.h"
 #include "fifo.h"
 #include "device.h"
-#include <stdio.h>
+// #include <stdio.h>
 #include "uart.h"
 
 typedef struct serial_packet_format
 {
     volatile uint8_t status;
+    volatile uint8_t UID;
     volatile uint8_t bytes_c;
     volatile uint8_t WR;
     volatile uint8_t addr;

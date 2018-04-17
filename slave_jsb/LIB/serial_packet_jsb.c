@@ -14,14 +14,9 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
             break;
         }
         case Pst_UID:{
-            if(*raw == P_UID){
-                sp->status = Pst_ADDR;
-                sp->chksum += *raw;
-            }
-            else {
-                sp->status = Pst_HEADER;
-                // return UID_NOT_MATCH;
-            }
+            sp->UID = *raw;
+            sp->status = Pst_ADDR;
+            sp->chksum += *raw;
             break;
         }
         case Pst_ADDR:{
@@ -50,7 +45,7 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
             break;
         }
         case Pst_CHKSUM:{
-            if(*raw == sp->chksum){
+            if(*raw == sp->chksum && sp->UID == P_UID ){
                 return Packet_OK;
             }
             else
