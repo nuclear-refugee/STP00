@@ -1,7 +1,7 @@
 #include <avr\io.h>
 #include <util\delay.h>
 #include <avr\interrupt.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <inttypes.h>
 
 #include ".\LIB\rev_STDIO.h"
@@ -33,15 +33,14 @@ ISR(USART1_TX_vect)
 int main(void)
 {
     uint8_t chk,data;
-    uint8_t chksum;
     uint8_t  reg_8[2] = {1,2};
     uint16_t reg_16[2] = {3,4};
-    uint8_t trigger = 0,i,j;
-    rev_STDIO_set();
+    // rev_STDIO_set();
     USART_set();
 
+    // Register table initial 必須先輸使table大小
     REG_PTR_SIZE * reg_ptr = Register_info_initial(4);
-
+    // 暫存器登記
     Register_info_fillin(&reg_ptr[0], &reg_8[0],  1);
     Register_info_fillin(&reg_ptr[1], &reg_8[1],  1);
     Register_info_fillin(&reg_ptr[2], &reg_16[0], 2);
@@ -61,18 +60,6 @@ int main(void)
                 pack_respond( &rec_state, reg_ptr , &usart_tx_fifo );
                 // printf("reg[0] = %d , reg[1] = %d , reg[2] = %d , reg[3] = %d\n",reg_8[0],reg_8[1],reg_16[0],reg_16[1]);
             }
-            // else if(chk)
-            // {   // ERROR RETURN HEADER_ERROR | chk (error code)
-            //     data = P_ERROR;
-            //     fifo_push( &usart_tx_fifo , 1 , &data );
-            //     fifo_push( &usart_tx_fifo , 1 , &chk);
-            //     if(trigger)
-            //     {   // if tx not working(tx stop when fifo empty), then trigger
-            //         fifo_pop( &usart_tx_fifo , 1 , &data );
-            //         USART_transmit( &data );
-            //         trigger = 0;
-            //     }
-            // }
         }
         else
         {    // FIFO pop no data
@@ -80,5 +67,7 @@ int main(void)
             // if(chk)
             //     printf("TimeOut!!\n");
         }
+
+        // Other code in main
     }
 }
