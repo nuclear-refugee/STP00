@@ -22,7 +22,7 @@ typedef struct
 	UART_int U_RX1[Register_max];
 }UART_TXRX;
 
-#define HEADER_UART 0xAA
+#define HEADER_UART 0xF0
 
 char M128_UART_put( char LSbyte, char Bytes, void *Data_p);
 char M128_UART_set( char LSbyte, char Mask, char Shift, void* Data_p);

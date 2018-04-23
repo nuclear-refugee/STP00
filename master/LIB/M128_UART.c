@@ -279,7 +279,7 @@ char M128_UARTM_trm(char Mode, char UID, char RAdd, char Bytes, void *Data_p)
 			trans_temp = (RAdd | 0x80);
 			check = M128_UART_put(3, 1, &trans_temp);				//send RAdd
 			if(check) return 5;
-            checksum = Header + UID + trans_temp;
+            checksum = UID + trans_temp;
 			for(int i=0;i<Bytes;i++)
 			{
 				check = M128_UART_put(3, 1, (char*)Data_p+i);		//send Data
@@ -413,7 +413,7 @@ char M128_UARTM_rec(char Mode, char UID, char RAdd, char Bytes, void* Data_p)
 			trans_temp = (RAdd & 0x7F);
 			check = M128_UART_put(3, 1, &trans_temp);				//send RAdd
 			if(check) return check;
-            checksum = Header + UID + trans_temp;
+            checksum = UID + trans_temp;
 			check = M128_UART_put(3, 1, &checksum);					//send checksum
 			if(check) return check;
 			RS485_READ;
