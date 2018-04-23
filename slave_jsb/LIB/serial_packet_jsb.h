@@ -41,7 +41,7 @@ typedef struct serial_packet_format
 #define Packet_OK        0xA5
 // TODO: enum
 
-#define P_HEADER 0xAA
+#define P_HEADER 0xF0
 #define P_UID    0x12
 #define P_ERROR  0xA0
 

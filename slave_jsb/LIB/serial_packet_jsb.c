@@ -6,7 +6,7 @@ uint8_t unpack(serial_packet *sp,REG_PTR_SIZE * reg,uint8_t *raw){
         case Pst_HEADER:{
             if(*raw == P_HEADER) {
                 sp->status = Pst_UID;
-                sp->chksum = P_HEADER;
+                sp->chksum = 0;
                 sp->bytes_c = 0;
                 free(sp->data);
             }
