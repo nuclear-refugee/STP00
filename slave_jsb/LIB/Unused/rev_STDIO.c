@@ -30,7 +30,7 @@ int rev_stdio_getchar(FILE *stream)
 
 	UDR_Buff = UDR0;
 
-	rev_stdio_putchar(UDR_Buff,stream);
+	// rev_stdio_putchar(UDR_Buff,stream);
 
 	return UDR_Buff;
 }
